@@ -1,5 +1,5 @@
 // Document Ready Event
-$(function() {
+jQuery(function($) {
   // Check if already logged in
   if (Login.isLoggedIn()) {
     Login.toDashboard();

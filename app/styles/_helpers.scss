@@ -1,0 +1,43 @@
+//Helpers
+.text-center {
+  text-align: center;
+}
+@mixin clearfix {
+  ::before,
+  ::after {
+    clear: both;
+    content: ' '; // 1
+    display: table; // 2
+  }
+}
+@mixin box-shadow-helper($level: 1) {
+  @if ($level = 1) {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+  }
+  @elseif when ($level = 2) {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+  }
+  @elseif when ($level = 3) {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+  }
+  @elseif ($level = 4) {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .25), 0 10px 10px rgba(0, 0, 0, .22);
+  }
+  @elseif ($level = 5) {
+    box-shadow: 0 19px 38px rgba(0, 0, 0, .3), 0 15px 12px rgba(0, 0, 0, .22);
+  }
+}
+
+.fill-container {
+  height: auto;
+  min-height: 100%;
+  width: 100%;
+}
+
+.block-center {
+  margin: 0 auto;
+}
+
+.block {
+  display: block;
+}

@@ -1,0 +1,17 @@
+label {
+  display: none;
+
+  .show {
+    display: inherit;
+  }
+}
+
+.tile-area {
+  padding: 0;
+}
+
+#dashboard,
+#login {
+  display: none;
+  height: 100%;
+}

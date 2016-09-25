@@ -1,0 +1,24 @@
+{
+  "name": "SmartEnergy-Client",
+  "version": "1.0.0",
+  "description": "",
+  "licence": "MIT",
+  "author": {
+    "name": "Jerry Fan",
+    "email": "nano@pixelcollider.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "node-sass": "^3.10.0",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1"
+  },
+  "devDependencies": {
+    "bower": "^1.7.9",
+    "webpack": "^1.13.2"
+  },
+  "scripts": {}
+}
