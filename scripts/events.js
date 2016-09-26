@@ -1,23 +1,17 @@
 // Document Ready Event
+var events = {
+	appStart: function() {
+	  if (login.isLoggedIn()) {
+		login.toDashboard();
+		dashboard.display();
+	  }
+	  else {
+		login.display();
+	  }
+	  console.log('App started.');
+	}
+};
+
 $(function() {
-  // Check if already logged in
-  if (Login.isLoggedIn()) {
-    Login.toDashboard();
-  }
-  else {
-    Login.display();
-  }
-
-  // Attach event handler to login form
-  $('#login-form').submit(function(event) {
-    event.preventDefault();
-    Login.saveUsername();
-    Login.toDashboard();
-  });
-
-  // Attach event handler to sign out button
-  $('#sign-out').click(function(event) {
-    event.preventDefault();
-    Login.signOut();
-  });
+	events.appStart();
 });
