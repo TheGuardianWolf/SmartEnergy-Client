@@ -10,8 +10,12 @@ label {
   padding: 0;
 }
 
-#dashboard,
-#login {
+.viewport {
+  height: 100%;
+}
+
+.dashboard,
+.login {
   display: none;
   height: 100%;
 }

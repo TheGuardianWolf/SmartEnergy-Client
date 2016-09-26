@@ -5,7 +5,7 @@
   "authors": [
     "[object Object]"
   ],
-  "license": "MIT",
+  "license": "GNU GPLv3",
   "homepage": "https://github.com/TheGuardianWolf/SmartEnergy-Client",
   "private": true,
   "ignore": [
@@ -16,12 +16,6 @@
     "tests"
   ],
   "dependencies": {
-    "normalize-scss": "normalize.scss#^5.0.3",
-    "metro-dist": "^3.0.15",
-    "jQuery": "^3.1.1",
-    "chart.js": "^2.3.0",
-    "velocity": "^1.3.1",
-    "store-js": "^1.3.20",
-    "compass-mixins": "^1.0.2"
+    "google-chart": "GoogleWebComponents/google-chart#^1.1.0"
   }
 }

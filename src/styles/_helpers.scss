@@ -1,10 +1,10 @@
 //Helpers
-.text-center {
+@mixin text-center {
   text-align: center;
 }
 @mixin clearfix {
-  ::before,
-  ::after {
+  &::before,
+  &::after {
     clear: both;
     content: ' '; // 1
     display: table; // 2
@@ -28,16 +28,16 @@
   }
 }
 
-.fill-container {
+@mixin fill-container {
   height: auto;
   min-height: 100%;
   width: 100%;
 }
 
-.block-center {
+@mixin block-center {
   margin: 0 auto;
 }
 
-.block {
+@mixin block {
   display: block;
 }

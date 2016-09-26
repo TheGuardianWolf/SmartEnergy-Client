@@ -1,40 +1,26 @@
-@import '_helpers.scss';
-@import '_defaults.scss';
-
-
-
-// Dashboard styles
-#dashboard {
-  .page-content {
-    padding-top: 3.125rem;
-    min-height: 100%;
-    height: 100%;
-  }
-}
-
 // Login
 .auth {
-  .fill-container;
+  @include fill-container;
 
   &.wrapper {
-    padding: 0;
     overflow: auto;
+    padding: 0;
   }
 
   .auth-background {
-      .fill-container;
+    @include fill-container;
   }
 
   .auth-strip {
-    .block-center;
-    height: 100vh;
-    width: 500px;
-    max-width: 100%;
-    text-align: center;
+    @include block-center;
     display: flex;
     flex-direction: column;
+    height: 100vh;
     justify-content: space-between;
-    padding: 120px 0px;
+    max-width: 100%;
+    padding: 120px 0;
+    text-align: center;
+    width: 500px;
 
     .login {
       display: flex;
@@ -47,9 +33,10 @@
     }
 
     .user-inputs {
-      margin: 0 3.75rem;
       flex-grow: 1;
+      margin: 0 3.75rem;
       position: relative;
+
       form {
         position: relative;
         top: 50%;
