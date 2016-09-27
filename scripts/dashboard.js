@@ -1,20 +1,19 @@
 var dashboard = {
-	display: function() {
+	partial : undefined,
+	display : function() {
 	  console.log("Switching to dashboard.");
 	  $(".viewport").children().velocity("fadeOut").promise().then(function() {
-		$("#dashboard .app-bar-element .dropdown-toggle .username").text(username);
-		dashboard.setEventsHandler();
+		$(".viewport").prepend(Mustache.render(dashboard.partial, api));
+		events.setDashboardEventHandlers();
 		$("#dashboard").velocity("fadeIn");
 	  });
 	},
-	signOut: function() {
-	  store.set("username", false);
+	currentDevice : {},
+	signOut : function() {
+		for (var key in api.data) {
+			if (api.data.hasOwnProperty(key)) {
+				store.remove(key);
+			}
+		}
 	},
-	setEventsHandler: function() {
-	  $("#sign-out").click(function(event) {
-		event.preventDefault();
-		dashboard.signOut();
-		login.display();
-	  });
-	}
 };

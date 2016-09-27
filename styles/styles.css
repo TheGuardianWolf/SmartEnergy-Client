@@ -21,6 +21,9 @@ label.show {
 .tile-area {
   padding: 0;
 }
+.viewport {
+  height: 100%;
+}
 #dashboard,
 #login {
   display: none;

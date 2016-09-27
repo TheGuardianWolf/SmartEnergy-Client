@@ -25,101 +25,22 @@
 </head>
 <body class="bg-steel">
 <div class="viewport">
-  <!-- Dashboard view -->
-  <div id="dashboard" class="dashboard page-content">
-    <div class="app-bar fixed-top" data-role="appbar">
-      <a class="app-bar-element branding">SmartEnergy</a>
-      <!-- <span class="app-bar-divider"></span> -->
-      <!-- <ul class="app-bar-menu">
-        <li><a href="">Dashboard</a></li>
-        <li>
-          <a href="" class="dropdown-toggle">Devices</a>
-          <ul class="d-menu" data-role="dropdown">
-            <li><a href="">Device 1</a></li>
-            <li><a href="">Device 2</a></li>
-            <li><a href="">Device 3</a></li>
-          </ul>
-        </li>
-      </ul> -->
 
-      <div class="app-bar-element place-right">
-        <span class="dropdown-toggle"><span class="mif-cog"></span><span class="username">Username</span></span>
-        <div class="app-bar-drop-container padding10 place-right no-margin-top block-shadow fg-dark" data-role="dropdown" data-no-close="true" style="width: 220px">
-          <h2 class="text-light">Quick settings</h2>
-          <ul class="unstyled-list fg-dark">
-            <li><a href="" id="sign-out" class="fg-white1 fg-hover-yellow">Sign Out</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="page-content">
-      <div class="flex-grid no-responsive-future" style="height: 100%;">
-        <div class="row" style="height: 100%">
-          <div class="cell size-x200" id="cell-sidebar" style="background-color: #71b1d1; height: 100%">
-            <ul class="sidebar">
-                <li><a href="#">
-                    <span class="mif-apps icon"></span>
-                    <span class="title">Overview</span>
-                    <span class="counter">0</span>
-                </a></li>
-                <li><a href="#">
-                    <span class="mif-vpn-publ icon"></span>
-                    <span class="title">Current Usage</span>
-                    <span class="counter">0</span>
-                </a></li>
-                <li><a href="#">
-                    <span class="mif-drive-eta icon"></span>
-                    <span class="title">History</span>
-                    <span class="counter">2</span>
-                </a></li>
-            </ul>
-        </div>
-          <div class="cell auto-size padding20 bg-white" id="cell-content">
-            <h1 class="text-light">Dashboard <span class="mif-drive-eta place-right"></span></h1>
-            <hr class="thin bg-grayLighter">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End dashboard view -->
-  <!-- Login view -->
-  <div id="login" class="login-form">
-    <div class="auth wrapper">
-      <div class="auth-background bg-steel">
-        <div class="auth-strip bg-grayLighter">
-          <div class="logo">
-            <h1 class="">SmartEnergy</h1>
-          </div>
-
-          <div class="user-inputs">
-            <form id="login-form" class="login">
-              <div class="input-control text">
-                <label>Username</label>
-                <span class="mif-user prepend-icon"></span>
-                <input type="text" name="username" placeholder="Username" required>
-              </div>
-              <input class="button primary bg-hover-cyan" type="submit" value="Login">
-            </form>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End login view -->
 </div>
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="includes/jquery/jquery-2.2.4.js"></script>
-  <script src="includes/storejs/store.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
+  <script src="./includes/jquery/jquery-2.2.4.js"></script>
+  <script src="./includes/store2/store2.min.js"></script>
+  <script src="./includes/metrouicss/js/metro.js"></script>
+  <script src="./includes/velocity/velocity.js"></script>
+  <script src="./includes/chartjs/chart.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="scripts/resource.js"></script>
-  <script src="scripts/login.js"></script>
-  <script src="scripts/dashboard.js"></script>
-  <script src="scripts/events.js"></script>
-  <script src="includes/velocity/velocity.js"></script>
-  <script src="includes/chartjs/chart.js"></script>
-  <script src="includes/metrouicss/js/metro.js"></script>
+  <script src="./scripts/api.js"></script>
+  <script src="./scripts/login.js"></script>
+  <script src="./scripts/dashboard.js"></script>
+  <script src="./scripts/events.js"></script>
+  <script src="./partials/login.partial.js"></script>
+  <script src="./partials/dashboard.partial.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
