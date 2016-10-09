@@ -1,5 +1,6 @@
 // Document Ready Event
 var events = {
+	onResize : [],
 	appStart : function() {
 		console.log('App started.');
 		for (var key in api.data) {
@@ -24,6 +25,11 @@ var events = {
 			else {
 				login.display();
 			}
+			$( window ).resize(function() {
+			  events.onResize.forEach(function(actions) {
+					actions();
+				});
+			});
 		});
 	},
 	setLoginEventHandlers : function() {
@@ -41,7 +47,11 @@ var events = {
 			dashboard.signOut();
 			login.display();
 		});
-		$('.app-bar .device-list li a').click(function(event) {
+		$('.dashboard .sidebar li.overview').click(function(event) {
+			event.preventDefault();
+			dashboard.overview.display();
+		});
+		$('.dashboard .app-bar .device-list li a').click(function(event) {
 			event.preventDefault();
 			var deviceId = parseInt($(this).data('device-id'));
 			var selectedDevice = api.data.Devices.find(function(element) {

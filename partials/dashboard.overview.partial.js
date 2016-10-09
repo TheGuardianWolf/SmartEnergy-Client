@@ -24,7 +24,7 @@ dashboard.overview.partial += "          <div class=\"cell colspan12\">";
 dashboard.overview.partial += "            <h3>Quick Stats<\/h3>";
 dashboard.overview.partial += "            <div class=\"power\">";
 dashboard.overview.partial += "              <p>";
-dashboard.overview.partial += "                <strong>Current Power<\/strong><br\/>";
+dashboard.overview.partial += "                <strong>Last Power<\/strong><br\/>";
 dashboard.overview.partial += "                <span class=\"value\"><\/span> W";
 dashboard.overview.partial += "              <\/p>";
 dashboard.overview.partial += "            <\/div>";
@@ -69,7 +69,7 @@ dashboard.overview.partial += "<!-- End Dashboard.Overview view -->";
             <h3>Quick Stats</h3>
             <div class="power">
               <p>
-                <strong>Current Power</strong><br/>
+                <strong>Last Power</strong><br/>
                 <span class="value"></span> W
               </p>
             </div>

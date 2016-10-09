@@ -30,30 +30,58 @@ var dashboard = {
 	overview : {
 		partial : undefined,
 		display: function() {
-			console.log('Switching to overview.');
-			$('.dashboard-viewport').children().velocity('fadeOut').promise().then(function() {
-				$('.dashboard-viewport').empty();
-				$('.dashboard-viewport').prepend(dashboard.overview.partial);
-				var deviceId = String(dashboard.currentDevice.Device.Id);
-				dashboard.overview.deviceAlias = $('.overview .device-alias');
-				dashboard.overview.quickPower = $('.overview .quick-stats .power .value').text(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value);
-				dashboard.overview.lastUpdate = $('.overview span.last-update');
-				dashboard.overview.lastSubmit = $('.overview span.last-submit');
-				dashboard.overview.lineChart = new google.charts.Line($('.overview .overview-line-chart')[0]);
-				dashboard.overview.refresh();
-				$('.dashboard-viewport .overview').velocity('fadeIn');
-			});
+			if (typeof dashboard.currentDevice.Device !== 'undefined' && dashboard.viewport.onDisplay !== 'overview') {
+				console.log('Switching to overview.');
+				events.onResize.length = 0;
+				$('.dashboard-viewport').children().velocity('fadeOut').promise().then(function() {
+					$('.dashboard-viewport').empty();
+					$('.dashboard-viewport').prepend(dashboard.overview.partial);
+					var deviceId = String(dashboard.currentDevice.Device.Id);
+					dashboard.overview.deviceAlias = $('.overview .device-alias');
+					dashboard.overview.quickPower = $('.overview .quick-stats .power .value').text(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value);
+					dashboard.overview.lastUpdate = $('.overview span.last-update');
+					dashboard.overview.lastSubmit = $('.overview span.last-submit');
+					dashboard.overview.lineChart = new google.visualization.LineChart($('.overview .overview-line-chart')[0]);
+					dashboard.overview.refresh();
+					$('.dashboard-viewport .overview').velocity('fadeIn').promise().then(function() {
+						dashboard.currentDevice.dataTable.update.promise().then(function() {
+							dashboard.overview.drawChart();
+							$('.overview .overview-line-chart').hide().velocity('fadeIn').promise().then(function() {
+								events.onResize.push(dashboard.overview.drawChart);
+							});
+						});
+					});
+				});
+			}
 		},
 		drawChart : function() {
 			var options = {
-        chart: {
-	        title: 'Last Hour',
-	        subtitle: 'Stats from the last hour.'
+        title: 'Last Hour',
+        // curveType: 'function',
+        legend: { position: 'bottom' },
+				interpolateNulls : true,
+				vAxes: {
+          0: {title: 'Value'},
         },
-        width: 600,
-        height: 450
+				hAxes: {
+          0: {
+						title: 'Time',
+						viewWindow: {
+	            min: moment().subtract(1, 'hour').toDate(),
+	            max: moment().toDate()
+	          },
+						gridlines: {
+            count: -1,
+            units: {
+	              minutes: {format: ['mm:ss a', 'ma']},
+	              seconds: {format: ['mm:ss a Z', ':ss']},
+	            }
+	          }
+					}
+        }
       };
-			dashboard.overview.lineChart.draw(dashboard.currentDevice.dataTable.data, google.charts.Line.convertOptions(options));
+
+			dashboard.overview.lineChart.draw(dashboard.currentDevice.dataTable.data, options);
 		},
 		refresh: function() {
 			var deviceId = String(dashboard.currentDevice.Device.Id);
@@ -61,9 +89,7 @@ var dashboard = {
 			dashboard.overview.quickPower.text(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value);
 			dashboard.overview.lastUpdate.text(moment(dashboard.currentDevice.lastAppUpdateTime).format('Do MMMM YYYY, h:mm:ss a'));
 			dashboard.overview.lastSubmit.text(moment(dashboard.currentDevice.lastDeviceUpdateTime).format('Do MMMM YYYY, h:mm:ss a'));
-			dashboard.currentDevice.dataTable.update.promise().then(function() {
-				dashboard.overview.drawChart();
-			});
+
 		},
 		// jQuery Objects for data binding
 		quickPower : undefined,
@@ -124,14 +150,16 @@ var dashboard = {
 
 						dataTable.addColumn({
 							type:'date',
-							role:'domain'
-						}, 'Time');
+							role:'domain',
+							label: 'Time'
+						});
 
 						columnNames.map(function(currentValue) {
 							dataTable.addColumn({
 								type:'number',
-								role:'data'
-							}, currentValue);
+								role:'data',
+								label : currentValue
+							});
 						});
 					}
 
