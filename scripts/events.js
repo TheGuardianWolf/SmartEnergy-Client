@@ -5,7 +5,7 @@ var events = {
 		for (var key in api.data) {
 		  if (api.data.hasOwnProperty(key)) {
 				var stored = store.get(key);
-				if ((typeof stored) === "object" && stored !== null) {
+				if ((typeof stored) === 'object' && stored !== null) {
 					api.data[key] = stored;
 				}
 		  }
@@ -13,9 +13,9 @@ var events = {
 		$(function() {
 			if (login.isLoggedIn()) {
 				api.notify(
-	        "Authentication",
-	        "Resuming from last session.",
-	        "info"
+	        'Authentication',
+	        'Resuming from last session.',
+	        'info'
 	      );
 				login.toDashboard().then(function() {
 					dashboard.display();
@@ -27,7 +27,7 @@ var events = {
 		});
 	},
 	setLoginEventHandlers : function() {
-		$("#login-form").submit(function(event) {
+		$('#login-form').submit(function(event) {
 			event.preventDefault();
 			login.getUsernameFromForm();
 			login.toDashboard().then(function() {
@@ -36,19 +36,19 @@ var events = {
 		});
 	},
 	setDashboardEventHandlers : function() {
-		$("#sign-out").click(function(event) {
+		$('#sign-out').click(function(event) {
 			event.preventDefault();
 			dashboard.signOut();
 			login.display();
 		});
-		$(".app-bar .device-list li a").click(function(event) {
+		$('.app-bar .device-list li a').click(function(event) {
 			event.preventDefault();
-			var deviceId = parseInt($(this).data("device-id"));
+			var deviceId = parseInt($(this).data('device-id'));
 			var selectedDevice = api.data.Devices.find(function(element) {
 				return element.Id === deviceId;
 			});
-			if (typeof selectedDevice !== "undefined") {
-				if (typeof dashboard.currentDevice.Device === "undefined" || selectedDevice.Id !== dashboard.currentDevice.Device.Id)
+			if (typeof selectedDevice !== 'undefined') {
+				if (typeof dashboard.currentDevice.Device === 'undefined' || selectedDevice.Id !== dashboard.currentDevice.Device.Id)
 				{
 					dashboard.currentDevice.Device = selectedDevice;
 					dashboard.currentDevice.getData().then(function() {

@@ -8,22 +8,33 @@ dashboard.overview.partial += "    <div class=\"row\">";
 dashboard.overview.partial += "      <div class=\"cell colspan6\">";
 dashboard.overview.partial += "        <div class=\"row\">";
 dashboard.overview.partial += "          <div class=\"cell colspan12\">";
-dashboard.overview.partial += "            <h2>{{Device.Alias}}<\/h2>";
-dashboard.overview.partial += "            Last update from server: <span>{{lastUpdateTime}}<\/span>";
+dashboard.overview.partial += "            <h2 class=\"device-alias\"><\/h2>";
+dashboard.overview.partial += "            <p>";
+dashboard.overview.partial += "              <strong>Last device data submission<\/strong><br\/>";
+dashboard.overview.partial += "              <span class=\"last-submit\"><\/span><br\/>";
+dashboard.overview.partial += "            <\/p>";
+dashboard.overview.partial += "            <p>";
+dashboard.overview.partial += "              <strong>Last app update from server<\/strong><br\/>";
+dashboard.overview.partial += "              <span class=\"last-update\"><\/span>";
+dashboard.overview.partial += "            <\/p>";
 dashboard.overview.partial += "          <\/div>";
 dashboard.overview.partial += "        <\/div>";
 dashboard.overview.partial += "        <div class=\"row quick-stats\">";
 dashboard.overview.partial += "          <div class=\"cell colspan12\">";
 dashboard.overview.partial += "            <h3>Quick Stats<\/h3>";
 dashboard.overview.partial += "            <div class=\"power\">";
-dashboard.overview.partial += "              Current Power<br\/>";
-dashboard.overview.partial += "              <span class=\"value\"><\/span> W";
+dashboard.overview.partial += "              <p>";
+dashboard.overview.partial += "                <strong>Current Power<\/strong><br\/>";
+dashboard.overview.partial += "                <span class=\"value\"><\/span> W";
+dashboard.overview.partial += "              <\/p>";
 dashboard.overview.partial += "            <\/div>";
 dashboard.overview.partial += "          <\/div>";
 dashboard.overview.partial += "        <\/div>";
 dashboard.overview.partial += "      <\/div>";
 dashboard.overview.partial += "      <div class=\"cell colspan6\">";
-dashboard.overview.partial += "        <h3>Last 6 Hours<\/h3>";
+dashboard.overview.partial += "        <h3>At a Glance<\/h3>";
+dashboard.overview.partial += "        <div class=\"overview-line-chart line-chart chart\">";
+dashboard.overview.partial += "        <\/div>";
 dashboard.overview.partial += "      <\/div>";
 dashboard.overview.partial += "    <\/div>";
 dashboard.overview.partial += "  <\/div>";
@@ -42,22 +53,33 @@ dashboard.overview.partial += "<!-- End Dashboard.Overview view -->";
       <div class="cell colspan6">
         <div class="row">
           <div class="cell colspan12">
-            <h2>{{Device.Alias}}</h2>
-            Last update from server: <span>{{lastUpdateTime}}</span>
+            <h2 class="device-alias"></h2>
+            <p>
+              <strong>Last device data submission</strong><br/>
+              <span class="last-submit"></span><br/>
+            </p>
+            <p>
+              <strong>Last app update from server</strong><br/>
+              <span class="last-update"></span>
+            </p>
           </div>
         </div>
         <div class="row quick-stats">
           <div class="cell colspan12">
             <h3>Quick Stats</h3>
             <div class="power">
-              Current Power<br/>
-              <span class="value"></span> W
+              <p>
+                <strong>Current Power</strong><br/>
+                <span class="value"></span> W
+              </p>
             </div>
           </div>
         </div>
       </div>
       <div class="cell colspan6">
-        <h3>Last 6 Hours</h3>
+        <h3>At a Glance</h3>
+        <div class="overview-line-chart line-chart chart">
+        </div>
       </div>
     </div>
   </div>

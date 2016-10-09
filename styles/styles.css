@@ -28,6 +28,10 @@ label.show {
 .viewport .login {
   height: 100%;
 }
+.chart {
+  width: 100%;
+  min-height: 450px;
+}
 div[class*="viewport"] > * {
   display: none;
 }
