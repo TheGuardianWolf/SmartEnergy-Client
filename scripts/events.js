@@ -12,6 +12,11 @@ var events = {
 		}
 		$(function() {
 			if (login.isLoggedIn()) {
+				api.notify(
+	        "Authentication",
+	        "Resuming from last session.",
+	        "info"
+	      );
 				login.toDashboard().then(function() {
 					dashboard.display();
 				});
@@ -35,6 +40,22 @@ var events = {
 			event.preventDefault();
 			dashboard.signOut();
 			login.display();
+		});
+		$(".app-bar .device-list li a").click(function(event) {
+			event.preventDefault();
+			var deviceId = parseInt($(this).data("device-id"));
+			var selectedDevice = api.data.Devices.find(function(element) {
+				return element.Id === deviceId;
+			});
+			if (typeof selectedDevice !== "undefined") {
+				if (typeof dashboard.currentDevice.Device === "undefined" || selectedDevice.Id !== dashboard.currentDevice.Device.Id)
+				{
+					dashboard.currentDevice.Device = selectedDevice;
+					dashboard.currentDevice.getData().then(function() {
+						dashboard.viewport.refresh();
+					});
+				}
+			}
 		});
 	}
 };

@@ -55,11 +55,13 @@ label {
 
 .viewport {
 	height: 100%;
+  .dashboard, .login {
+    height: 100%;
+  }
 }
 
-#dashboard, #login {
+div[class*="viewport"] > * {
   display: none;
-  height: 100%;
 }
 
 // Dashboard styles
@@ -95,7 +97,7 @@ label {
     justify-content: space-between;
     padding: 120px 0px;
 
-    .login {
+    .login-form {
       display: flex;
       flex-direction: column;
       overflow: visible;

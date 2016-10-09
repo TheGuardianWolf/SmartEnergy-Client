@@ -24,10 +24,12 @@ label.show {
 .viewport {
   height: 100%;
 }
-#dashboard,
-#login {
-  display: none;
+.viewport .dashboard,
+.viewport .login {
   height: 100%;
+}
+div[class*="viewport"] > * {
+  display: none;
 }
 #dashboard .page-content {
   padding-top: 3.125rem;
@@ -59,12 +61,12 @@ label.show {
   justify-content: space-between;
   padding: 120px 0px;
 }
-.auth .auth-strip .login {
+.auth .auth-strip .login-form {
   display: flex;
   flex-direction: column;
   overflow: visible;
 }
-.auth .auth-strip .login .input-control {
+.auth .auth-strip .login-form .input-control {
   width: 100%;
 }
 .auth .auth-strip .user-inputs {
