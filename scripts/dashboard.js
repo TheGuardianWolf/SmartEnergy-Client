@@ -13,29 +13,29 @@ var dashboard = {
 	viewport : {
 		refresh : function() {
 			var deviceId = String(dashboard.currentDevice.Device.Id);
-			if (typeof dashboard.viewport.onDisplay === 'undefined')
+			if (typeof dashboard.viewport.currentView === 'undefined')
 			{
 				$('.dashboard .sidebar .current .counter').text(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value + ' W');
 				dashboard.overview.display();
 			}
 			else {
-				dashboard.currentDevice.getData().then(function() {
-					$('.dashboard .sidebar .current .counter').text(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value + ' W');
-					dashboard[dashboard.viewport.onDisplay].refresh();
-				});
+				$('.dashboard .sidebar .current .counter').text(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value + ' W');
+				dashboard[dashboard.viewport.currentView].refresh();
 			}
 		},
-		onDisplay : undefined
+		currentView : undefined,
+		schedule : undefined,
+		redrawCharts : [],
 	},
 	history : {
 		partial : undefined,
 		display : function() {
-			if (typeof dashboard.currentDevice.Device !== 'undefined' && dashboard.viewport.onDisplay !== 'history') {
-				dashboard.viewport.onDisplay = 'history';
+			if (typeof dashboard.currentDevice.Device !== 'undefined' && dashboard.viewport.currentView !== 'history') {
+				dashboard.viewport.currentView = 'history';
 				$('.dashboard .sidebar li').removeClass('active');
 				$('.dashboard .sidebar li.history').addClass('active');
 				console.log('Switching to history.');
-				events.onChange.length = 0;
+				dashboard.viewport.redrawCharts.length = 0;
 				$('.dashboard-viewport').children().velocity('fadeOut').promise().then(function() {
 					$('.dashboard-viewport').empty();
 					$('.dashboard-viewport').prepend(dashboard.history.partial);
@@ -46,7 +46,7 @@ var dashboard = {
 						dashboard.currentDevice.dataTable.update.promise().then(function() {
 							dashboard.history.lineChart.draw(dashboard.currentDevice.dataTable.data, dashboard.history.chartOptions());
 							$('.history .history-line-chart').hide().velocity('fadeIn').promise().then(function() {
-								events.onChange.push(function() {
+								dashboard.viewport.redrawCharts.push(function() {
 									dashboard.history.lineChart.draw(dashboard.currentDevice.dataTable.data, dashboard.history.chartOptions());
 								});
 							});
@@ -83,12 +83,12 @@ var dashboard = {
 	current : {
 		partial : undefined,
 		display : function() {
-			if (typeof dashboard.currentDevice.Device !== 'undefined' && dashboard.viewport.onDisplay !== 'current') {
-				dashboard.viewport.onDisplay = 'current';
+			if (typeof dashboard.currentDevice.Device !== 'undefined' && dashboard.viewport.currentView !== 'current') {
+				dashboard.viewport.currentView = 'current';
 				$('.dashboard .sidebar li').removeClass('active');
 				$('.dashboard .sidebar li.current').addClass('active');
 				console.log('Switching to current.');
-				events.onChange.length = 0;
+				dashboard.viewport.redrawCharts.length = 0;
 				$('.dashboard-viewport').children().velocity('fadeOut').promise().then(function() {
 					$('.dashboard-viewport').empty();
 					$('.dashboard-viewport').prepend(dashboard.current.partial);
@@ -106,7 +106,7 @@ var dashboard = {
 							};
 							drawCharts();
 							$('.current  .line-chart').hide().velocity('fadeIn').promise().then(function() {
-								events.onChange.push(drawCharts);
+								dashboard.viewport.redrawCharts.push(drawCharts);
 							});
 						});
 					});
@@ -145,12 +145,12 @@ var dashboard = {
 	overview : {
 		partial : undefined,
 		display: function() {
-			if (typeof dashboard.currentDevice.Device !== 'undefined' && dashboard.viewport.onDisplay !== 'overview') {
-				dashboard.viewport.onDisplay = 'overview';
+			if (typeof dashboard.currentDevice.Device !== 'undefined' && dashboard.viewport.currentView !== 'overview') {
+				dashboard.viewport.currentView = 'overview';
 				$('.dashboard .sidebar li').removeClass('active');
 				$('.dashboard .sidebar li.overview').addClass('active');
 				console.log('Switching to overview.');
-				events.onChange.length = 0;
+				dashboard.viewport.redrawCharts.length = 0;
 				$('.dashboard-viewport').children().velocity('fadeOut').promise().then(function() {
 					$('.dashboard-viewport').empty();
 					$('.dashboard-viewport').prepend(dashboard.overview.partial);
@@ -167,7 +167,7 @@ var dashboard = {
 						dashboard.currentDevice.dataTable.update.promise().then(function() {
 							dashboard.overview.lineChart.draw(dashboard.currentDevice.dataTable.data, dashboard.overview.chartOptions());
 							$('.overview .overview-line-chart').hide().velocity('fadeIn').promise().then(function() {
-								events.onChange.push(function() {
+								dashboard.viewport.redrawCharts.push(function() {
 									dashboard.overview.lineChart.draw(dashboard.currentDevice.dataTable.data, dashboard.overview.chartOptions());
 								});
 							});
@@ -250,7 +250,6 @@ var dashboard = {
 		updateDaemon : undefined,
 		processedData : undefined,
 		getData : function() {
-
 			if (typeof dashboard.currentDevice.Device.Id !== 'undefined')
 			{
 				api.notify(
@@ -378,6 +377,20 @@ var dashboard = {
 						}
 
 						updateTime();
+
+						if (typeof dashboard.viewport.schedule !== 'undefined') {
+							clearInterval(dashboard.viewport.schedule);
+						}
+						dashboard.viewport.schedule = setInterval(function() {
+							dashboard.currentDevice.getData()
+							.then(function() {
+								dashboard.viewport.refresh();
+								dashboard.viewport.redrawCharts.forEach(function(actions) {
+									actions();
+								});
+							});
+						}, 30000);
+
 						return r;
 					};
 				}
@@ -390,7 +403,7 @@ var dashboard = {
 							dashboard.currentDevice.lastDeviceUpdateTime = r[r.length - 1].Time;
 							if (typeof dashboard.currentDevice.firstDeviceUpdateTime === 'undefined') {
 								dashboard.currentDevice.firstDeviceUpdateTime = r[0].Time;
-							}		
+							}
 						}
 
 						updateTime();
@@ -425,10 +438,11 @@ var dashboard = {
 		}
 	},
 	signOut : function() {
-		for (var key in api.data) {
-			if (api.data.hasOwnProperty(key)) {
-				store.remove(key);
-			}
+		Object.keys(api.data).map(function(currentValue) {
+			store.remove(currentValue);
+		});
+		if (typeof dashboard.viewport.schedule !== 'undefined') {
+			clearInterval(dashboard.viewport.schedule);
 		}
 	},
 };

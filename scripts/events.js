@@ -1,6 +1,6 @@
 // Document Ready Event
 var events = {
-	onChange : [],
+
 	appStart : function() {
 		console.log('App started.');
 		for (var key in api.data) {
@@ -26,7 +26,7 @@ var events = {
 				login.display();
 			}
 			$( window ).resize(function() {
-			  events.onChange.forEach(function(actions) {
+			  dashboard.viewport.redrawCharts.forEach(function(actions) {
 					actions();
 				});
 			});
