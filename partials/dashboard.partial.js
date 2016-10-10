@@ -32,16 +32,16 @@ dashboard.partial += "    <div class=\"flex-grid no-responsive-future\" style=\"
 dashboard.partial += "      <div class=\"row\" style=\"height: 100%\">";
 dashboard.partial += "        <div class=\"cell size-x200\" id=\"cell-sidebar\" style=\"background-color: #71b1d1; height: 100%\">";
 dashboard.partial += "          <ul class=\"sidebar\">";
-dashboard.partial += "              <li class=\"overview\"><a href=\"#\">";
+dashboard.partial += "              <li class=\"overview\" data-view=\"overview\"><a href=\"#\">";
 dashboard.partial += "                  <span class=\"mif-apps icon\"><\/span>";
 dashboard.partial += "                  <span class=\"title\">Overview<\/span>";
 dashboard.partial += "              <\/a><\/li>";
-dashboard.partial += "              <li class=\"current-usage\"><a href=\"#\">";
+dashboard.partial += "              <li class=\"current\" data-view=\"current\"><a href=\"#\">";
 dashboard.partial += "                  <span class=\"mif-vpn-publ icon\"><\/span>";
 dashboard.partial += "                  <span class=\"title\">Current Usage<\/span>";
 dashboard.partial += "                  <span class=\"counter\">0<\/span>";
 dashboard.partial += "              <\/a><\/li>";
-dashboard.partial += "              <li class=\"history\"><a href=\"#\">";
+dashboard.partial += "              <li class=\"history\" data-view=\"history\"><a href=\"#\">";
 dashboard.partial += "                  <span class=\"mif-drive-eta icon\"><\/span>";
 dashboard.partial += "                  <span class=\"title\">History<\/span>";
 dashboard.partial += "              <\/a><\/li>";
@@ -92,16 +92,16 @@ dashboard.partial += "<!-- End Dashboard view -->";
       <div class="row" style="height: 100%">
         <div class="cell size-x200" id="cell-sidebar" style="background-color: #71b1d1; height: 100%">
           <ul class="sidebar">
-              <li class="overview"><a href="#">
+              <li class="overview" data-view="overview"><a href="#">
                   <span class="mif-apps icon"></span>
                   <span class="title">Overview</span>
               </a></li>
-              <li class="current-usage"><a href="#">
+              <li class="current" data-view="current"><a href="#">
                   <span class="mif-vpn-publ icon"></span>
                   <span class="title">Current Usage</span>
                   <span class="counter">0</span>
               </a></li>
-              <li class="history"><a href="#">
+              <li class="history" data-view="history"><a href="#">
                   <span class="mif-drive-eta icon"></span>
                   <span class="title">History</span>
               </a></li>

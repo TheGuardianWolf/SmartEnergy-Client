@@ -22,10 +22,22 @@ dashboard.overview.partial += "        <\/div>";
 dashboard.overview.partial += "        <div class=\"row quick-stats\">";
 dashboard.overview.partial += "          <div class=\"cell colspan12\">";
 dashboard.overview.partial += "            <h3>Quick Stats<\/h3>";
+dashboard.overview.partial += "            <div class=\"voltage\">";
+dashboard.overview.partial += "              <p>";
+dashboard.overview.partial += "                <strong>Last RMS Voltage<\/strong><br\/>";
+dashboard.overview.partial += "                <span class=\"value\"><\/span>";
+dashboard.overview.partial += "              <\/p>";
+dashboard.overview.partial += "            <\/div>";
+dashboard.overview.partial += "            <div class=\"current\">";
+dashboard.overview.partial += "              <p>";
+dashboard.overview.partial += "                <strong>Last Max Current<\/strong><br\/>";
+dashboard.overview.partial += "                <span class=\"value\"><\/span>";
+dashboard.overview.partial += "              <\/p>";
+dashboard.overview.partial += "            <\/div>";
 dashboard.overview.partial += "            <div class=\"power\">";
 dashboard.overview.partial += "              <p>";
-dashboard.overview.partial += "                <strong>Last Power<\/strong><br\/>";
-dashboard.overview.partial += "                <span class=\"value\"><\/span> W";
+dashboard.overview.partial += "                <strong>Last Average Power<\/strong><br\/>";
+dashboard.overview.partial += "                <span class=\"value\"><\/span>";
 dashboard.overview.partial += "              <\/p>";
 dashboard.overview.partial += "            <\/div>";
 dashboard.overview.partial += "          <\/div>";
@@ -67,10 +79,22 @@ dashboard.overview.partial += "<!-- End Dashboard.Overview view -->";
         <div class="row quick-stats">
           <div class="cell colspan12">
             <h3>Quick Stats</h3>
+            <div class="voltage">
+              <p>
+                <strong>Last RMS Voltage</strong><br/>
+                <span class="value"></span>
+              </p>
+            </div>
+            <div class="current">
+              <p>
+                <strong>Last Max Current</strong><br/>
+                <span class="value"></span>
+              </p>
+            </div>
             <div class="power">
               <p>
-                <strong>Last Power</strong><br/>
-                <span class="value"></span> W
+                <strong>Last Average Power</strong><br/>
+                <span class="value"></span>
               </p>
             </div>
           </div>

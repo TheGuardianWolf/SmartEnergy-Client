@@ -47,9 +47,9 @@ var events = {
 			dashboard.signOut();
 			login.display();
 		});
-		$('.dashboard .sidebar li.overview').click(function(event) {
+		$('.dashboard .sidebar li').click(function(event) {
 			event.preventDefault();
-			dashboard.overview.display();
+			dashboard[$(this).data('view')].display();
 		});
 		$('.dashboard .app-bar .device-list li a').click(function(event) {
 			event.preventDefault();
