@@ -4,6 +4,7 @@ var dashboard = {
 	  console.log('Switching to dashboard.');
 	  $('.viewport').children().velocity('fadeOut').promise().then(function() {
 			$('.viewport').empty();
+			console.log(api.data.Devices);
 			$('.viewport').prepend(Mustache.render(dashboard.partial, api));
 			events.setDashboardEventHandlers();
 			$('#dashboard').velocity('fadeIn');
@@ -34,7 +35,7 @@ var dashboard = {
 				$('.dashboard .sidebar li').removeClass('active');
 				$('.dashboard .sidebar li.history').addClass('active');
 				console.log('Switching to history.');
-				events.onResize.length = 0;
+				events.onChange.length = 0;
 				$('.dashboard-viewport').children().velocity('fadeOut').promise().then(function() {
 					$('.dashboard-viewport').empty();
 					$('.dashboard-viewport').prepend(dashboard.history.partial);
@@ -45,7 +46,7 @@ var dashboard = {
 						dashboard.currentDevice.dataTable.update.promise().then(function() {
 							dashboard.history.lineChart.draw(dashboard.currentDevice.dataTable.data, dashboard.history.chartOptions());
 							$('.history .history-line-chart').hide().velocity('fadeIn').promise().then(function() {
-								events.onResize.push(function() {
+								events.onChange.push(function() {
 									dashboard.history.lineChart.draw(dashboard.currentDevice.dataTable.data, dashboard.history.chartOptions());
 								});
 							});
@@ -87,7 +88,7 @@ var dashboard = {
 				$('.dashboard .sidebar li').removeClass('active');
 				$('.dashboard .sidebar li.current').addClass('active');
 				console.log('Switching to current.');
-				events.onResize.length = 0;
+				events.onChange.length = 0;
 				$('.dashboard-viewport').children().velocity('fadeOut').promise().then(function() {
 					$('.dashboard-viewport').empty();
 					$('.dashboard-viewport').prepend(dashboard.current.partial);
@@ -105,7 +106,7 @@ var dashboard = {
 							};
 							drawCharts();
 							$('.current  .line-chart').hide().velocity('fadeIn').promise().then(function() {
-								events.onResize.push(drawCharts);
+								events.onChange.push(drawCharts);
 							});
 						});
 					});
@@ -136,15 +137,9 @@ var dashboard = {
 		 };
 	 },
 	 lineChart : {
-		 voltage : {
-
-		 },
-		 current : {
-
-		 },
-		 power : {
-
-		 }
+		 voltage : undefined,
+		 current : undefined,
+		 power : undefined
 	 }
 	},
 	overview : {
@@ -155,7 +150,7 @@ var dashboard = {
 				$('.dashboard .sidebar li').removeClass('active');
 				$('.dashboard .sidebar li.overview').addClass('active');
 				console.log('Switching to overview.');
-				events.onResize.length = 0;
+				events.onChange.length = 0;
 				$('.dashboard-viewport').children().velocity('fadeOut').promise().then(function() {
 					$('.dashboard-viewport').empty();
 					$('.dashboard-viewport').prepend(dashboard.overview.partial);
@@ -172,7 +167,7 @@ var dashboard = {
 						dashboard.currentDevice.dataTable.update.promise().then(function() {
 							dashboard.overview.lineChart.draw(dashboard.currentDevice.dataTable.data, dashboard.overview.chartOptions());
 							$('.overview .overview-line-chart').hide().velocity('fadeIn').promise().then(function() {
-								events.onResize.push(function() {
+								events.onChange.push(function() {
 									dashboard.overview.lineChart.draw(dashboard.currentDevice.dataTable.data, dashboard.overview.chartOptions());
 								});
 							});
@@ -283,6 +278,19 @@ var dashboard = {
 						api.data.Data[deviceId] = {};
 					}
 
+					var keyAliasConvert = function (key) {
+						switch (key) {
+							case "voltage":
+							return "RMS Voltage (V)";
+							case "current":
+							return "Max Current (A)";
+							case "power":
+							return "Average Power (W)";
+							default:
+							return key;
+						}
+					};
+
 					sortedData.map(function(currentValue) {
 						if (typeof api.data.Data[deviceId][currentValue.Label] === 'undefined') {
 							api.data.Data[deviceId][currentValue.Label] = [];
@@ -304,19 +312,6 @@ var dashboard = {
 							role:'domain',
 							label: 'Time'
 						});
-
-						var keyAliasConvert = function (key) {
-							switch (key) {
-								case "voltage":
-								return "RMS Voltage (V)";
-								case "current":
-								return "Max Current (A)";
-								case "power":
-								return "Average Power (W)";
-								default:
-								return key;
-							}
-						};
 
 						columnNames.map(function(currentValue) {
 							dataTable.addColumn({
@@ -393,11 +388,19 @@ var dashboard = {
 
 						if (r.length > 0) {
 							dashboard.currentDevice.lastDeviceUpdateTime = r[r.length - 1].Time;
-							dashboard.currentDevice.firstDeviceUpdateTime = r[0].Time;
+							if (typeof dashboard.currentDevice.firstDeviceUpdateTime === 'undefined') {
+								dashboard.currentDevice.firstDeviceUpdateTime = r[0].Time;
+							}		
 						}
 
 						updateTime();
 						return r;
+					};
+				}
+
+				if (typeof dashboard.currentDevice.lastDeviceUpdateTime !== 'undefined') {
+					oData = {
+						filter : 'Time gt DateTime\'' + dashboard.currentDevice.lastDeviceUpdateTime + '\''
 					};
 				}
 

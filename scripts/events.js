@@ -1,6 +1,6 @@
 // Document Ready Event
 var events = {
-	onResize : [],
+	onChange : [],
 	appStart : function() {
 		console.log('App started.');
 		for (var key in api.data) {
@@ -26,7 +26,7 @@ var events = {
 				login.display();
 			}
 			$( window ).resize(function() {
-			  events.onResize.forEach(function(actions) {
+			  events.onChange.forEach(function(actions) {
 					actions();
 				});
 			});

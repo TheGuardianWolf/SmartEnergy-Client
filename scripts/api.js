@@ -21,7 +21,12 @@ var api = {
       if ((typeof s) === 'object' && s !== null) {
         var oDataString = '';
         if ((typeof oData) === 'object' && s !== null) {
-
+          Object.keys(oData).map(function(currentValue) {
+            if (oDataString === '') {
+              oDataString += '?';
+            }
+            oDataString += '$' + currentValue + '=' + String(oData[currentValue]);
+          });
         }
         return api.base + 'Data/Device/' + String(s.Id) + oDataString;
       }
