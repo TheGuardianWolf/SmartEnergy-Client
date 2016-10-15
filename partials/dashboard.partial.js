@@ -36,9 +36,9 @@ dashboard.partial += "              <li class=\"overview\" data-view=\"overview\
 dashboard.partial += "                  <span class=\"mif-apps icon\"><\/span>";
 dashboard.partial += "                  <span class=\"title\">Overview<\/span>";
 dashboard.partial += "              <\/a><\/li>";
-dashboard.partial += "              <li class=\"current\" data-view=\"current\"><a href=\"#\">";
+dashboard.partial += "              <li class=\"recent\" data-view=\"recent\"><a href=\"#\">";
 dashboard.partial += "                  <span class=\"mif-vpn-publ icon\"><\/span>";
-dashboard.partial += "                  <span class=\"title\">Current Usage<\/span>";
+dashboard.partial += "                  <span class=\"title\">Recent Usage<\/span>";
 dashboard.partial += "                  <span class=\"counter\">0<\/span>";
 dashboard.partial += "              <\/a><\/li>";
 dashboard.partial += "              <li class=\"history\" data-view=\"history\"><a href=\"#\">";
@@ -96,9 +96,9 @@ dashboard.partial += "<!-- End Dashboard view -->";
                   <span class="mif-apps icon"></span>
                   <span class="title">Overview</span>
               </a></li>
-              <li class="current" data-view="current"><a href="#">
+              <li class="recent" data-view="recent"><a href="#">
                   <span class="mif-vpn-publ icon"></span>
-                  <span class="title">Current Usage</span>
+                  <span class="title">Recent Usage</span>
                   <span class="counter">0</span>
               </a></li>
               <li class="history" data-view="history"><a href="#">

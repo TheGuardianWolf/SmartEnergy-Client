@@ -13,5 +13,7 @@ function applyJsMinification($dir)
 }
 
 cat scripts/*.js, partials/*.js, app.js | sc app-bundle.js
+cat styles/*.css | sc app-bundle.css
 
 applyJsMinification "app-bundle.js"
+applyCssMinification "app-bundle.css"

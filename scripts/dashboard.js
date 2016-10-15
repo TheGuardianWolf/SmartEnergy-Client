@@ -4,22 +4,31 @@ var dashboard = {
 	  console.log('Switching to dashboard.');
 	  $('.viewport').children().velocity('fadeOut').promise().then(function() {
 			$('.viewport').empty();
-			console.log(api.data.Devices);
 			$('.viewport').prepend(Mustache.render(dashboard.partial, api));
 			events.setDashboardEventHandlers();
 			$('#dashboard').velocity('fadeIn');
 	  });
 	},
 	viewport : {
+		formatNumber : function(number) {
+			if (number < 1) {
+				return number.toPrecision(3);
+			}
+			return number.toPrecision(4);
+		},
 		refresh : function() {
 			var deviceId = String(dashboard.currentDevice.Device.Id);
 			if (typeof dashboard.viewport.currentView === 'undefined')
 			{
-				$('.dashboard .sidebar .current .counter').text(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value + ' W');
+				$('.dashboard .sidebar .recent .counter').text(
+					dashboard.viewport.formatNumber(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value) + ' W'
+				);
 				dashboard.overview.display();
 			}
 			else {
-				$('.dashboard .sidebar .current .counter').text(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value + ' W');
+				$('.dashboard .sidebar .recent .counter').text(
+					dashboard.viewport.formatNumber(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value) + ' W'
+				);
 				dashboard[dashboard.viewport.currentView].refresh();
 			}
 		},
@@ -61,7 +70,6 @@ var dashboard = {
 		chartOptions : function() {
 			return {
         title: 'All Recorded Data',
-        curveType: 'function',
         legend: { position: 'bottom' },
  				interpolateNulls : true,
  				vAxes: {
@@ -71,41 +79,55 @@ var dashboard = {
           0: {
  						title: 'Time',
  						viewWindow: {
- 	            min: (typeof dashboard.currentDevice.firstDeviceUpdateTime !== "undefined") ? moment(dashboard.currentDevice.firstDeviceUpdateTime).toDate() : moment().subtract(1, 'year').toDate(),
- 	            max: (typeof dashboard.currentDevice.firstDeviceUpdateTime !== "undefined") ? moment(dashboard.currentDevice.lastDeviceUpdateTime).toDate() : moment().toDate()
+ 	            min: (typeof dashboard.currentDevice.firstDeviceUpdateTime !== "undefined") ? moment.utc(dashboard.currentDevice.firstDeviceUpdateTime).local().toDate() : moment().subtract(1, 'year').toDate(),
+ 	            max: (typeof dashboard.currentDevice.firstDeviceUpdateTime !== "undefined") ? moment.utc(dashboard.currentDevice.lastDeviceUpdateTime).local().toDate() : moment().toDate()
  	          },
+						gridlines: {
+							count: -1,
+							units: {
+								hours: {format: ['HH:mm', 'ha']}
+							}
+						},
+						minorGridlines: {
+						 units : {
+								hours: {format: ['hh:mm:ss a', 'ha']},
+								minutes: {
+									format: [':mm']
+								}
+							}
+						}
  					}
         }
  		 };
 	 },
 	 lineChart : undefined
 	},
-	current : {
+	recent : {
 		partial : undefined,
 		display : function() {
-			if (typeof dashboard.currentDevice.Device !== 'undefined' && dashboard.viewport.currentView !== 'current') {
-				dashboard.viewport.currentView = 'current';
+			if (typeof dashboard.currentDevice.Device !== 'undefined' && dashboard.viewport.currentView !== 'recent') {
+				dashboard.viewport.currentView = 'recent';
 				$('.dashboard .sidebar li').removeClass('active');
-				$('.dashboard .sidebar li.current').addClass('active');
-				console.log('Switching to current.');
+				$('.dashboard .sidebar li.recent').addClass('active');
+				console.log('Switching to recent.');
 				dashboard.viewport.redrawCharts.length = 0;
 				$('.dashboard-viewport').children().velocity('fadeOut').promise().then(function() {
 					$('.dashboard-viewport').empty();
-					$('.dashboard-viewport').prepend(dashboard.current.partial);
+					$('.dashboard-viewport').prepend(dashboard.recent.partial);
 					var deviceId = String(dashboard.currentDevice.Device.Id);
-					dashboard.current.lineChart.voltage = new google.visualization.LineChart($('.current .voltage-line-chart')[0]);
-					dashboard.current.lineChart.current = new google.visualization.LineChart($('.current .current-line-chart')[0]);
-					dashboard.current.lineChart.power = new google.visualization.LineChart($('.current .power-line-chart')[0]);
-					dashboard.current.refresh();
-					$('.dashboard-viewport .current').velocity('fadeIn').promise().then(function() {
+					dashboard.recent.lineChart.voltage = new google.visualization.LineChart($('.recent .voltage-line-chart')[0]);
+					dashboard.recent.lineChart.current = new google.visualization.LineChart($('.recent .current-line-chart')[0]);
+					dashboard.recent.lineChart.power = new google.visualization.LineChart($('.recent .power-line-chart')[0]);
+					dashboard.recent.refresh();
+					$('.dashboard-viewport .recent').velocity('fadeIn').promise().then(function() {
 						dashboard.currentDevice.dataTable.update.promise().then(function() {
 							var drawCharts = function() {
-								dashboard.current.lineChart.voltage.draw(dashboard.currentDevice.dataTable.views.voltage, dashboard.current.chartOptions('RMS Voltage in Last Hour', 'RMS Voltage (V)'));
-								dashboard.current.lineChart.current.draw(dashboard.currentDevice.dataTable.views.current, dashboard.current.chartOptions('Max Current in Last Hour', 'Max Current (A)'));
-								dashboard.current.lineChart.power.draw(dashboard.currentDevice.dataTable.views.power, dashboard.current.chartOptions('Average Power in Last Hour', 'Average Power (W)'));
+								dashboard.recent.lineChart.voltage.draw(dashboard.currentDevice.dataTable.views.voltage, dashboard.recent.chartOptions('RMS Voltage in Last 5 Minutes', 'RMS Voltage (V)'));
+								dashboard.recent.lineChart.current.draw(dashboard.currentDevice.dataTable.views.current, dashboard.recent.chartOptions('Max Current in Last 5 Minutes', 'Max Current (A)'));
+								dashboard.recent.lineChart.power.draw(dashboard.currentDevice.dataTable.views.power, dashboard.recent.chartOptions('Average Power in Last 5 Minutes', 'Average Power (W)'));
 							};
 							drawCharts();
-							$('.current  .line-chart').hide().velocity('fadeIn').promise().then(function() {
+							$('.recent .line-chart').hide().velocity('fadeIn').promise().then(function() {
 								dashboard.viewport.redrawCharts.push(drawCharts);
 							});
 						});
@@ -119,7 +141,6 @@ var dashboard = {
 		chartOptions : function(title, yTitle) {
 			return {
 				"title" : title,
-				curveType: 'function',
 				legend: { position: 'bottom' },
 				interpolateNulls : true,
 				vAxes: {
@@ -129,9 +150,23 @@ var dashboard = {
 					0: {
 						title: 'Time',
 						viewWindow: {
-							min: moment().subtract(1, 'hours').toDate(),
+							min: moment().subtract(5, 'minutes').toDate(),
 							max: moment().toDate()
 						},
+						gridlines: {
+							count: -1,
+							units: {
+								hours: {format: ['HH:mm', 'ha']}
+							}
+						},
+						minorGridlines: {
+						 units : {
+								hours: {format: ['hh:mm:ss a', 'ha']},
+								minutes: {
+									format: [':mm']
+								}
+							}
+						}
 					}
 				}
 		 };
@@ -178,8 +213,7 @@ var dashboard = {
 		},
 		chartOptions : function() {
 		 return {
-       title: 'Last Hour',
-       curveType: 'function',
+       title: 'Last Minute',
        legend: { position: 'bottom' },
 				interpolateNulls : true,
 				vAxes: {
@@ -189,21 +223,18 @@ var dashboard = {
          0: {
 						title: 'Time',
 						viewWindow: {
-	            min: moment().subtract(1, 'hour').toDate(),
+	            min: moment().subtract(1, 'minute').toDate(),
 	            max: moment().toDate()
 	          },
 						gridlines: {
 	            count: -1,
 	            units: {
-	              hours: {format: ['HH:mm', 'ha']}
+	              minutes: {format: ['mm:ss']}
 	            }
 	          },
 						minorGridlines: {
              units : {
-								hours: {format: ['hh:mm:ss a', 'ha']},
-								minutes: {
-									format: [':mm']
-								}
+								seconds: {format: [':ss']},
 							}
 	          }
 					}
@@ -213,12 +244,12 @@ var dashboard = {
 		refresh: function() {
 			var deviceId = String(dashboard.currentDevice.Device.Id);
 			dashboard.overview.deviceAlias.text(dashboard.currentDevice.Device.Alias);
-			dashboard.overview.quickPower.text(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value + ' W');
-			dashboard.overview.quickCurrent.text(api.data.Data[deviceId].current[api.data.Data[deviceId].current.length - 1].Value + ' A');
-			dashboard.overview.quickVoltage.text(api.data.Data[deviceId].voltage[api.data.Data[deviceId].voltage.length - 1].Value + ' V');
-			dashboard.overview.lastUpdate.text(moment(dashboard.currentDevice.lastAppUpdateTime).format('Do MMMM YYYY, h:mm:ss a'));
+			dashboard.overview.quickPower.text(dashboard.viewport.formatNumber(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value) + ' W');
+			dashboard.overview.quickCurrent.text(dashboard.viewport.formatNumber(api.data.Data[deviceId].current[api.data.Data[deviceId].current.length - 1].Value) + ' A');
+			dashboard.overview.quickVoltage.text(dashboard.viewport.formatNumber(api.data.Data[deviceId].voltage[api.data.Data[deviceId].voltage.length - 1].Value) + ' V');
+			dashboard.overview.lastUpdate.text(moment.utc(dashboard.currentDevice.lastAppUpdateTime).local().format('Do MMMM YYYY, h:mm:ss a'));
 			if (typeof dashboard.currentDevice.lastDeviceUpdateTime !== "undefined") {
-				dashboard.overview.lastSubmit.text(moment(dashboard.currentDevice.lastDeviceUpdateTime).format('Do MMMM YYYY, h:mm:ss a'));
+				dashboard.overview.lastSubmit.text(moment.utc(dashboard.currentDevice.lastDeviceUpdateTime).local().format('Do MMMM YYYY, h:mm:ss a'));
 			}
 			else {
 				dashboard.overview.lastSubmit.text("No data.");
@@ -252,12 +283,6 @@ var dashboard = {
 		getData : function() {
 			if (typeof dashboard.currentDevice.Device.Id !== 'undefined')
 			{
-				api.notify(
-					'Devices',
-					'Getting data for ' + dashboard.currentDevice.Device.Alias + '.',
-					'info'
-				);
-
 				var successCallback;
 				var oData = '';
 
@@ -294,6 +319,7 @@ var dashboard = {
 						if (typeof api.data.Data[deviceId][currentValue.Label] === 'undefined') {
 							api.data.Data[deviceId][currentValue.Label] = [];
 						}
+
 						api.data.Data[deviceId][currentValue.Label].push(currentValue);
 					});
 
@@ -312,18 +338,22 @@ var dashboard = {
 							label: 'Time'
 						});
 
-						columnNames.map(function(currentValue) {
+						var numberFormat = new google.visualization.NumberFormat({pattern:'@####'});
+
+						columnNames.map(function(currentValue, index) {
 							dataTable.addColumn({
 								type:'number',
 								role:'data',
 								label : keyAliasConvert(currentValue)
 							});
+
+							numberFormat.format(dataTable, index + 1);
 						});
 					}
 
 					sortedData.map(function(dataValue) {
 						var row = [];
-						row[0] = new Date(dataValue.Time);
+						row[0] = moment.utc(dataValue.Time).local().toDate();
 
 						columnNames.map(function(columnName, index) {
 							if (dataValue.Label === columnName) {
@@ -333,7 +363,6 @@ var dashboard = {
 								row.push(null);
 							}
 						});
-
 						dashboard.currentDevice.dataTable.data.addRow(row);
 					});
 
@@ -352,8 +381,6 @@ var dashboard = {
 							}
 						}
 						dashboard.currentDevice.dataTable.views[currentValue].hideColumns(columnIndexes);
-						rowIndexes = dashboard.currentDevice.dataTable.views[currentValue].getFilteredRows([{column: 1, value: null}]);
-						dashboard.currentDevice.dataTable.views[currentValue].hideRows(rowIndexes);
 					});
 
 					dashboard.currentDevice.dataTable.update.resolve(dashboard.currentDevice.dataTable.data);
@@ -363,6 +390,11 @@ var dashboard = {
 				var deviceId = String(dashboard.currentDevice.Device.Id);
 				if (typeof api.data.Data[deviceId] === 'undefined') {
 					// getData Initial Run
+					api.notify(
+						'Devices',
+						'Getting data for ' + dashboard.currentDevice.Device.Alias + '.',
+						'info'
+					);
 					successCallback = function(r) {
 						api.notify(
 	            'Devices',
@@ -389,7 +421,7 @@ var dashboard = {
 									actions();
 								});
 							});
-						}, 30000);
+						}, 5000);
 
 						return r;
 					};
@@ -438,6 +470,9 @@ var dashboard = {
 		}
 	},
 	signOut : function() {
+		dashboard.currentDevice.Device = undefined;
+		dashboard.viewport.currentView = undefined;
+		dashboard.viewport.redrawCharts.length = 0;
 		Object.keys(api.data).map(function(currentValue) {
 			store.remove(currentValue);
 		});

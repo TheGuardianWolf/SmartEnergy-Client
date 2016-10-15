@@ -6,7 +6,11 @@ TODO: Write a project description
 
 TODO: Describe the installation process
 
-## Usage
+## Build 
+
+Use ./build in Powershell with Microsoft Ajax Minifier.
+
+Microsoft Ajax Minifier can be found at http://ajaxmin.codeplex.com/.
 
 TODO: Write usage instructions
 
