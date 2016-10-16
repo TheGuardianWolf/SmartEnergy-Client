@@ -111,17 +111,9 @@ var dashboard = {
 						gridlines: {
 							count: -1,
 							units: {
-								hours: {format: ['HH:mm', 'ha']}
+								hours: {format: ['HH:mm']}
 							}
 						},
-						minorGridlines: {
-						 units : {
-								hours: {format: ['hh:mm:ss a', 'ha']},
-								minutes: {
-									format: [':mm']
-								}
-							}
-						}
  					}
         }
  		 };
@@ -197,17 +189,9 @@ var dashboard = {
 						gridlines: {
 							count: -1,
 							units: {
-								hours: {format: ['HH:mm', 'ha']}
+								hours: {format: ['HH:mm']}
 							}
 						},
-						minorGridlines: {
-						 units : {
-								hours: {format: ['hh:mm:ss a', 'ha']},
-								minutes: {
-									format: [':mm']
-								}
-							}
-						}
 					}
 				}
 		 };
@@ -288,11 +272,6 @@ var dashboard = {
 	              minutes: {format: ['mm:ss']}
 	            }
 	          },
-						minorGridlines: {
-             units : {
-								seconds: {format: [':ss']},
-							}
-	          }
 					}
        }
 		 };
@@ -595,7 +574,7 @@ var dashboard = {
 	signOut : function() {
 		dashboard.viewport.currentView = undefined;
 		dashboard.viewport.redrawCharts.length = 0;
-		dashboard.reset();
+		dashboard.currentDevice.reset();
 		Object.keys(api.data).map(function(currentValue) {
 			store.remove(currentValue);
 		});

@@ -4,6 +4,7 @@
 .text-center {
   text-align: center;
 }
+
 .clearfix() {
   &:before,
   &:after {
@@ -14,6 +15,7 @@
     clear: both;
   }
 }
+
 .BoxShadowHelper(@level: 1){
     & when (@level = 1) {
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -31,17 +33,26 @@
         box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     }
 }
+
 .fill-container {
   height: auto;
   min-height: 100%;
   width: 100%;
 }
+
+.fill-containter-flex {
+  display: flex;
+  flex-direction: column;
+}
+
 .block-center {
   margin: 0px auto;
 }
+
 .block {
   display: block;
 }
+
 label {
   display: none;
 
@@ -49,24 +60,24 @@ label {
     display:inherit;
   }
 }
+
 .tile-area {
   padding: 0;
 }
 
 // Defaults
-
-.viewport {
-	min-height: 100vh;
+.sidebar {
+  position: fixed;
+  width: 200px;
   height: 100%;
-  .dashboard, .login {
-    height: 100%;
-    min-height: 100vh;
+  @media screen and (max-width: 800px) {
+    width: 52px;
   }
 }
 
 .chart {
   width: 100%;
-  height: 450px;
+  height: 390px;
   max-height: 100%;
 }
 
@@ -80,6 +91,17 @@ div[class*="viewport"] > * {
     padding-top: 3.125rem;
     min-height: 100%;
     height: 100%;
+    > .flex-grid {
+      padding-left: 200px;
+      transition: padding-left .2s ease;
+      @media screen and (max-width: 800px) {
+        padding-left: 52px;
+      }
+    }
+  }
+  .app-bar .dropdown-toggle .mif-cog {
+    padding: 5px;
+    padding-bottom: 8.5px;
   }
 }
 
