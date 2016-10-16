@@ -3,7 +3,7 @@
 dashboard.overview.partial="";
 dashboard.overview.partial += "<!-- Dashboard.Overview view -->";
 dashboard.overview.partial += "<div class=\"overview\">";
-dashboard.overview.partial += "  <h1 class=\"text-light\">Overview <span class=\"mif-drive-eta place-right\"><\/span><\/h1>";
+dashboard.overview.partial += "  <h1 class=\"text-light\">Overview <span class=\"mif-apps place-right\"><\/span><\/h1>";
 dashboard.overview.partial += "  <hr class=\"thin bg-grayLighter\">";
 dashboard.overview.partial += "  <div class=\"flex-grid\">";
 dashboard.overview.partial += "    <div class=\"row\">";
@@ -60,7 +60,7 @@ dashboard.overview.partial += "<!-- End Dashboard.Overview view -->";
 /*
 <!-- Dashboard.Overview view -->
 <div class="overview">
-  <h1 class="text-light">Overview <span class="mif-drive-eta place-right"></span></h1>
+  <h1 class="text-light">Overview <span class="mif-apps place-right"></span></h1>
   <hr class="thin bg-grayLighter">
   <div class="flex-grid">
     <div class="row">

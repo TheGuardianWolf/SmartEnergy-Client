@@ -3,7 +3,7 @@
 dashboard.recent.partial="";
 dashboard.recent.partial += "<!-- Dashboard.Recent view -->";
 dashboard.recent.partial += "<div class=\"recent\">";
-dashboard.recent.partial += "  <h1 class=\"text-light\">Recent Usage <span class=\"mif-drive-eta place-right\"><\/span><\/h1>";
+dashboard.recent.partial += "  <h1 class=\"text-light\">Recent Usage <span class=\"mif-heartbeat place-right\"><\/span><\/h1>";
 dashboard.recent.partial += "  <hr class=\"thin bg-grayLighter\">";
 dashboard.recent.partial += "  <div class=\"flex-grid\">";
 dashboard.recent.partial += "    <div class=\"row\">";
@@ -31,7 +31,7 @@ dashboard.recent.partial += "<!-- End Dashboard.Current view -->";
 /*
 <!-- Dashboard.Current view -->
 <div class="current">
-  <h1 class="text-light">Recent Usage <span class="mif-drive-eta place-right"></span></h1>
+  <h1 class="text-light">Recent Usage <span class="mif-heartbeat place-right"></span></h1>
   <hr class="thin bg-grayLighter">
   <div class="flex-grid">
     <div class="row">
