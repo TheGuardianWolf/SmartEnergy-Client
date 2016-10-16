@@ -1,3 +1,5 @@
+// Partial view template for dashboard.
+
 dashboard.partial="";
 dashboard.partial += "<!-- Dashboard view -->";
 dashboard.partial += "<div id=\"dashboard\" class=\"dashboard page-content\">";

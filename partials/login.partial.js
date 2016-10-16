@@ -1,3 +1,5 @@
+// Partial view template for login
+
 login.partial="";
 login.partial += "<!-- Login view -->";
 login.partial += "<div id=\"login\" class=\"login\">";

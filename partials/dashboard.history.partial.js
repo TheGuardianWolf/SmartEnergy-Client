@@ -1,3 +1,5 @@
+// Partial view template for dashboard.history.
+
 dashboard.history.partial="";
 dashboard.history.partial += "<!-- Dashboard.History view -->";
 dashboard.history.partial += "<div class=\"history\">";

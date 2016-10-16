@@ -1,3 +1,5 @@
+// Partial view template for dashboard.overview.
+
 dashboard.overview.partial="";
 dashboard.overview.partial += "<!-- Dashboard.Overview view -->";
 dashboard.overview.partial += "<div class=\"overview\">";

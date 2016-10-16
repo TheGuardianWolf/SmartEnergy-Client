@@ -1,3 +1,5 @@
+// Partial view template for dashboard.recent
+
 dashboard.recent.partial="";
 dashboard.recent.partial += "<!-- Dashboard.Recent view -->";
 dashboard.recent.partial += "<div class=\"recent\">";
