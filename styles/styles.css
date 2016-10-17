@@ -48,6 +48,13 @@ label.show {
 div[class*="viewport"] > * {
   display: none;
 }
+.preloader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
 #dashboard .page-content {
   padding-top: 3.125rem;
   min-height: 100%;

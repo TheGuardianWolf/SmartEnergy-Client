@@ -21,10 +21,12 @@ var events = {
 	        'info'
 	      );
 				login.toDashboard().then(function() {
+					$('.preloader').hide();
 					dashboard.display();
 				});
 			}
 			else {
+				$('.preloader').hide();
 				login.display();
 			}
 
