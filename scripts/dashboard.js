@@ -25,6 +25,9 @@ var dashboard = {
 			}
 			return number.toPrecision(4);
 		},
+		formatMoney : function(number) {
+			return number.toFixed(2);
+		},
 		// Wrapper around the individual dashboard view refresh functions.
 		refresh : function() {
 			var deviceId = String(dashboard.currentDevice.Device.Id);
@@ -229,6 +232,7 @@ var dashboard = {
 					dashboard.overview.quickPower = $('.overview .quick-stats .power .value');
 					dashboard.overview.quickVoltage = $('.overview .quick-stats .voltage .value');
 					dashboard.overview.quickCurrent = $('.overview .quick-stats .current .value');
+					dashboard.overview.quickCost = $('.overview .quick-stats .cost .value');
 					dashboard.overview.lastUpdate = $('.overview span.last-update');
 					dashboard.overview.lastSubmit = $('.overview span.last-submit');
 
@@ -285,6 +289,7 @@ var dashboard = {
 			dashboard.overview.quickPower.text(dashboard.viewport.formatNumber(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value) + ' W');
 			dashboard.overview.quickCurrent.text(dashboard.viewport.formatNumber(api.data.Data[deviceId].current[api.data.Data[deviceId].current.length - 1].Value) + ' A');
 			dashboard.overview.quickVoltage.text(dashboard.viewport.formatNumber(api.data.Data[deviceId].voltage[api.data.Data[deviceId].voltage.length - 1].Value) + ' V');
+			dashboard.overview.quickCost.text('$' + dashboard.viewport.formatMoney(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value * 0.26 * 24 / 1000));
 			dashboard.overview.lastUpdate.text(moment.utc(dashboard.currentDevice.lastAppUpdateTime).local().format('Do MMMM YYYY, h:mm:ss a'));
 			if (typeof dashboard.currentDevice.lastDeviceUpdateTime !== "undefined") {
 				dashboard.overview.lastSubmit.text(moment.utc(dashboard.currentDevice.lastDeviceUpdateTime).local().format('Do MMMM YYYY, h:mm:ss a'));
@@ -297,6 +302,7 @@ var dashboard = {
 		quickPower : undefined,
 		quickVoltage : undefined,
 		quickCurrent : undefined,
+		quickCost : undefined,
 		lastUpdate : undefined,
 		lastSubmit : undefined,
 		lineChart : undefined,

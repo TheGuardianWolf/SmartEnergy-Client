@@ -42,6 +42,12 @@ dashboard.overview.partial += "                <strong>Last Average Power<\/stro
 dashboard.overview.partial += "                <span class=\"value\"><\/span>";
 dashboard.overview.partial += "              <\/p>";
 dashboard.overview.partial += "            <\/div>";
+dashboard.overview.partial += "            <div class=\"cost\">";
+dashboard.overview.partial += "              <p>";
+dashboard.overview.partial += "                <strong>Running Cost at Current Power (per Day)<\/strong><br\/>";
+dashboard.overview.partial += "                <span class=\"value\"><\/span>";
+dashboard.overview.partial += "              <\/p>";
+dashboard.overview.partial += "            <\/div>";
 dashboard.overview.partial += "          <\/div>";
 dashboard.overview.partial += "        <\/div>";
 dashboard.overview.partial += "      <\/div>";
@@ -96,6 +102,12 @@ dashboard.overview.partial += "<!-- End Dashboard.Overview view -->";
             <div class="power">
               <p>
                 <strong>Last Average Power</strong><br/>
+                <span class="value"></span>
+              </p>
+            </div>
+            <div class="cost">
+              <p>
+                <strong>Running Costs at Current Power (per Day)</strong><br/>
                 <span class="value"></span>
               </p>
             </div>
