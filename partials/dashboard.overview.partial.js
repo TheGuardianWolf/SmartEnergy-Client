@@ -44,7 +44,7 @@ dashboard.overview.partial += "              <\/p>";
 dashboard.overview.partial += "            <\/div>";
 dashboard.overview.partial += "            <div class=\"cost\">";
 dashboard.overview.partial += "              <p>";
-dashboard.overview.partial += "                <strong>Running Cost at Current Power (per Day)<\/strong><br\/>";
+dashboard.overview.partial += "                <strong>Running Cost at Current Power (Per 30 Days)<\/strong><br\/>";
 dashboard.overview.partial += "                <span class=\"value\"><\/span>";
 dashboard.overview.partial += "              <\/p>";
 dashboard.overview.partial += "            <\/div>";

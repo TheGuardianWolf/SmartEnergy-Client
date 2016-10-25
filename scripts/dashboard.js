@@ -289,7 +289,7 @@ var dashboard = {
 			dashboard.overview.quickPower.text(dashboard.viewport.formatNumber(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value) + ' W');
 			dashboard.overview.quickCurrent.text(dashboard.viewport.formatNumber(api.data.Data[deviceId].current[api.data.Data[deviceId].current.length - 1].Value) + ' A');
 			dashboard.overview.quickVoltage.text(dashboard.viewport.formatNumber(api.data.Data[deviceId].voltage[api.data.Data[deviceId].voltage.length - 1].Value) + ' V');
-			dashboard.overview.quickCost.text('$' + dashboard.viewport.formatMoney(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value * 0.26 * 24 / 1000));
+			dashboard.overview.quickCost.text('$' + dashboard.viewport.formatMoney(api.data.Data[deviceId].power[api.data.Data[deviceId].power.length - 1].Value * 0.26 * 24 * 30 / 1000));
 			dashboard.overview.lastUpdate.text(moment.utc(dashboard.currentDevice.lastAppUpdateTime).local().format('Do MMMM YYYY, h:mm:ss a'));
 			if (typeof dashboard.currentDevice.lastDeviceUpdateTime !== "undefined") {
 				dashboard.overview.lastSubmit.text(moment.utc(dashboard.currentDevice.lastDeviceUpdateTime).local().format('Do MMMM YYYY, h:mm:ss a'));
